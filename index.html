@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Simon Game</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+
+<body>
+  
+  <div class="header">
+    <span class="recordJogador1">&nbsp</span> 
+    <span class="recordJogador2">&nbsp</span>
+  </div>
+
+  <div class="container">  
+
+    <h1 id="level-title">Simon Game</h1> 
+    
+    <p class="tamara">Desenvolvido por Tamara P</p> 
+
+    <p class="qntJogadores">Quantos jogadores?</p> 
+    
+    <p class="sequencia">&nbsp</p> 
+
+    <p class="vez">&nbsp</p>  
+   
+    <input type="button" class="umPlayer" value="1 Player">  
+    <input type="button" class="doisPlayers" value="2 Players">  
+
+    <input type="text" id="inputNomePlayer1"> 
+    <input type="text" id="inputNomePlayer2"> 
+
+    <div class="row">
+
+      <div type="button" id="green" class="btn green"> 
+      </div>
+
+      <div type="button" id="red" class="btn red"> 
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div type="button" id="yellow" class="btn yellow"> 
+      </div>
+
+      <div type="button" id="blue" class="btn blue"> 
+      </div>
+
+    </div>
+
+  </div> 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="game.js" charset="utf-8"></script>
+
+</body>
+
+</html>

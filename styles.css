@@ -1,0 +1,137 @@
+body { 
+  background-color: #011F3F;
+  color: #FEF2BF;  
+  font-family: 'Press Start 2P', cursive; 
+  font-size: calc(2px + 2vh); 
+  margin: 0;
+  padding: 0;
+  text-align: center; 
+  user-select: none; 
+}  
+
+#level-title {  
+  font-size: calc(2px + 6vh);   
+  margin: 5vh 0; 
+}
+ 
+#inputNomePlayer1, #inputNomePlayer2 {
+  background-color: #0c5eb673; 
+  color: #FEF2BF;
+  display: none;
+  font-family: 'Press Start 2P', cursive; 
+  padding: 1vh 3vh; 
+  text-align: center;
+}
+
+.row {
+  display: none;
+}
+
+.sequencia {  
+  display: none;  
+  margin-bottom: 5vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between; 
+}
+
+.recordJogador1 { 
+  margin: 2% 0 0 2%; 
+  opacity: 0;
+} 
+
+.recordJogador2 { 
+  margin: 2% 2% 0 0; 
+  opacity: 0;
+}
+
+.container {  
+  height: 85vh;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+
+.btn { 
+  border: 10px solid black;
+  border-radius: 20%;
+  content: '.';
+  display: inline-block; 
+  margin: 1% 0.5%;
+  padding: 11vh; 
+}
+
+.game-over {
+  background-color: red;
+  opacity: 0.8;
+}
+
+.red {
+  background-color: #ff0000c4;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color:#0000ff9c;  
+}
+
+.yellow {
+  background-color: #ffff00d3;
+}
+
+.pressed {
+  box-shadow: 0 0 20px white; 
+}
+ 
+.umPlayer:hover {
+  color: #fef2bfc4;  
+  cursor: pointer;
+} 
+
+.doisPlayers:hover {
+  color: #fef2bfc4;  
+  cursor: pointer;
+}
+ 
+.umPlayer, .doisPlayers {
+  background-color: #011F3F;
+  border: none;
+  color: #FEF2BF;  
+  display: block;
+  font-family: 'Press Start 2P', cursive; 
+  font-size: calc(2px + 2vh); 
+  margin: 2% auto;
+}
+ 
+.tamara {
+  font-style: italic;
+  margin-bottom: 5%;
+}
+
+.qntJogadores{
+  margin-bottom: 5%;
+}
+
+.vez {
+  display: none;  
+  margin-bottom: 5vh;
+}
+
+
+@media (max-width: 500px) {
+
+  #level-title {  
+    font-size: calc(2px + 4vh);   
+    margin: 5vh 0; 
+  }
+
+  
+  .btn {  
+    padding: 9vh; 
+  }
+} 
