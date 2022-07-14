@@ -135,3 +135,9 @@ body {
     padding: 9vh; 
   }
 } 
+ 
+@media (max-width: 370px) { 
+  .btn {  
+    padding: 7vh; 
+  }
+}  
