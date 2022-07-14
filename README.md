@@ -1,6 +1,6 @@
 # Simon Game
 
-Meu primeiro projeto em jQuery!
+Meu primeiro projeto com jQuery!
 
 Recriei um jogo clássico, porém com multiplayer!
 
