@@ -517,7 +517,7 @@ function proximosRounds() {
                 $(".sequencia").css("opacity", "1"); 
             }
 
-        }, 1000 * (i+1));  
+        }, 750 * (i+1));  
     }
       
 }
