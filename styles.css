@@ -121,3 +121,12 @@ body {
   display: none;  
   margin-bottom: 5vh;
 }
+
+
+@media (max-width: 500px) {
+
+  #level-title {  
+    font-size: calc(2px + 4vh);   
+    margin: 5vh 0; 
+  }
+} 
