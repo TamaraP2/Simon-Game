@@ -167,6 +167,10 @@ body {
   .pressioneQT {
     display: block;
   }
+  
+  .qntJogadores {
+    line-height: 1.6;
+  }
 } 
 
 @media (max-width: 370px) { 
