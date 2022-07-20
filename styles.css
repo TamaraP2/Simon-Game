@@ -127,17 +127,30 @@ body {
 
   #level-title {  
     font-size: calc(2px + 4vh);   
-    margin: 5vh 0; 
+    margin-top: 5vh; 
+    margin-bottom: 9vh; 
   }
 
   
   .btn {  
     padding: 9vh; 
   }
+
+  
+  .tamarap {  
+    display: block;   
+    margin-top: 2vh; 
+    margin-bottom: 9vh; 
+  }
+
+  
+  .umPlayer, .doisPlayers { 
+    margin: 3% auto;
+  }
 } 
- 
+
 @media (max-width: 370px) { 
   .btn {  
     padding: 7vh; 
   }
-}  
+} 
