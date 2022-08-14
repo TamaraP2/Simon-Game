@@ -80,8 +80,7 @@ function nomes() {
 
     
     if (!("ontouchstart" in document.documentElement)) {
-        
-        $("h1").html('OLOKO');  
+         
         window.addEventListener('resize', function() { 
             if (round === 0 && contador === 0) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome, e após o jogo já ter iniciado
                 window.location.reload(); 
