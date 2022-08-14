@@ -57,6 +57,12 @@ $(".dois-players").click(function(){
     qntJogadores = 2;
     $(".um-player").css("display", "none"); 
     $(".dois-players").css("display", "none"); 
+ 
+    if ("ontouchstart" in document.documentElement) {
+        
+        $(".tamara").css("display", "none"); 
+    } 
+
     nomes();
 });
 
@@ -70,7 +76,8 @@ $(".dois-players").click(function(){
 function nomes() {
    
     if (window.innerWidth < 850) { 
-        $(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 1 e</span> <span style="white-space: nowrap;">pressione Enter</span');  
+        /*$(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 1 e</span> <span style="white-space: nowrap;">pressione Enter</span');  */
+        $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 1</span> <span style="white-space: nowrap;"></span');  
     }
     else {
         $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 1</span> <span class="pressione-enter">e pressione Enter</span>');
@@ -98,13 +105,14 @@ function nomes() {
             nomeJogador1 = document.getElementById("nome-jogador-1").value;  
             contador++;
 
-            $(".record-jogador-1").text(nomeJogador1 + ": "); 
+            $(".record-jogador-1").text(nomeJogador1 + ": -"); 
             $(".record-jogador-1").css("opacity", "1"); 
 
             $("#nome-jogador-1").css("display", "none");     
 
             if (window.innerWidth < 850) { 
-                $(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 2 e</span> <span style="white-space: nowrap;">pressione Enter</span');  
+                /*$(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 2 e</span> <span style="white-space: nowrap;">pressione Enter</span');  */                
+                $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 2</span> <span style="white-space: nowrap;"></span');  
             }
             else {
                 $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 2</span> <span class="pressione-enter">e pressione Enter</span>');
@@ -122,7 +130,7 @@ function nomes() {
 
             nomeJogador2 = document.getElementById("nome-jogador-2").value;
 
-            $(".record-jogador-2").text(nomeJogador2 + ": ");  
+            $(".record-jogador-2").text(nomeJogador2 + ": -");  
             $(".record-jogador-2").css("opacity", "1"); 
 
             $(".qnt-jogadores").css("display", "none"); 
@@ -162,10 +170,13 @@ function vezDeQuem () {
         $(".vez").css("display", "revert");  
         
         if (jogador === 1) {
-            $(".vez").text(nomeJogador1 + ", é a sua vez!"); 
+            /*$(".vez").text("Sua vez, " + nomeJogador1 + "!"); */
+            $(".vez").text(nomeJogador1 + ", sua vez!"); 
         }
         if (jogador === 2) {
-            $(".vez").text(nomeJogador2 + ", é a sua vez!"); 
+            /*$(".vez").text("Sua vez, " + nomeJogador2 + "!"); */
+            /*$(".vez").text(nomeJogador2 + ", é a sua vez!"); */
+            $(".vez").text(nomeJogador2 + ", sua vez!"); 
         } 
   
     }
