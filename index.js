@@ -44,6 +44,7 @@ $(".um-player").click(function(){
     $(".record-jogador-1").html(nomeJogador1);  
     $(".record-jogador-1").css("opacity", "1"); 
     $(".record-jogador-2").css("display", "none"); 
+    $(".records").css("justify-content", "center"); 
 
     setTimeout(() => {
         startGame(); 
