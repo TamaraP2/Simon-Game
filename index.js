@@ -68,16 +68,7 @@ $(".dois-players").click(function(){
 
 
 function nomes() {
-  
-    let contador = 0;
-
-    window.addEventListener('resize', function() { 
-        if (round === 0 && contador === 0) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome, e após o jogo já ter iniciado
-            window.location.reload(); 
-            contador++;
-        }        
-    }); 
-
+   
     if (window.innerWidth < 850) { 
         $(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 1 e</span> <span style="white-space: nowrap;">pressione Enter</span');  
     }
@@ -85,6 +76,20 @@ function nomes() {
         $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 1</span> <span class="pressione-enter">e pressione Enter</span>');
     }
   
+    let contador = 0;
+
+    
+    if (!("ontouchstart" in document.documentElement)) {
+        
+        $("h1").html('OLOKO');  
+        window.addEventListener('resize', function() { 
+            if (round === 0 && contador === 0) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome, e após o jogo já ter iniciado
+                window.location.reload(); 
+                contador++;
+            }        
+        }); 
+    } 
+
     $("#nome-jogador-1").css("display", "revert"); 
 
     $("#nome-jogador-1").keypress(function(event) {        
