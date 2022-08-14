@@ -1,4 +1,8 @@
 
+/* ====================================================== */
+/* ====================== VARIAVEIS ===================== */
+/* ====================================================== */
+
 let sequenciaJogo = [];
 let sequenciaJogador1 = [];
 let sequenciaJogador2 = [];
@@ -13,82 +17,118 @@ let nomeJogador1 = "Jogador 1";
 let nomeJogador2 = "Jogador 2"; 
 let cont = 0;                       // Impede que Game Over seja acionado mais de uma vez
 
+
+
 audioSemDelay();
 
-$(".umPlayer").click(function(){
+
+/* ====================================================== */
+/* ============== SELEÇÃO 1 OU 2 PLAYERS ================ */
+/* ====================================================== */
+
+$(".um-player").click(function(){
 
     qntJogadores = 1;
    
-    $(".umPlayer").css("display", "none"); 
-    $(".doisPlayers").css("display", "none"); 
+    $(".um-player").css("display", "none"); 
+    $(".dois-players").css("display", "none"); 
 
     $(".tamara").css("display", "none"); 
 
-    $(".qntJogadores").css("display", "none"); 
+    $(".qnt-jogadores").css("display", "none"); 
 
-    $(".row").css("display", "revert"); 
-    
-    $(".sequencia").css("display", "revert"); 
-    $(".sequencia").css("opacity", "0"); 
-
-    $("h1").html('Pressione <span class="pressioneQT">Qualquer Tecla</span'); 
+    $(".jogo").css("display", "revert"); 
+       
+    $("h1").html("Aperte Play"); 
+ 
+    $(".record-jogador-1").html(nomeJogador1);  
+    $(".record-jogador-1").css("opacity", "1"); 
+    $(".records").css("justify-content", "center"); 
 
     setTimeout(() => {
-        startGame();
+        startGame(); 
     }, 350);
 });
 
 
-$(".doisPlayers").click(function(){
+$(".dois-players").click(function(){
 
     qntJogadores = 2;
-    $(".umPlayer").css("display", "none"); 
-    $(".doisPlayers").css("display", "none"); 
+    $(".um-player").css("display", "none"); 
+    $(".dois-players").css("display", "none"); 
     nomes();
 });
 
 
+
+/* ====================================================== */
+/* ================ NOMES DOS JOGADORES ================= */
+/* ====================================================== */
+
+
 function nomes() {
+  
+    let contador = 0;
 
-    $(".qntJogadores").html('Digite o nome do Jogador 1 <span class="pressioneEnter">e pressione Enter</span>');  
-    $("#inputNomePlayer1").css("display", "revert"); 
+    window.addEventListener('resize', function() { 
+        if (round === 0 && contador === 0) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome, e após o jogo já ter iniciado
+            window.location.reload(); 
+            contador++;
+        }        
+    }); 
 
-    $("#inputNomePlayer1").keypress(function(event) {        
+    if (window.innerWidth < 850) { 
+        $(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 1 e</span> <span style="white-space: nowrap;">pressione Enter</span');  
+    }
+    else {
+        $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 1</span> <span class="pressione-enter">e pressione Enter</span>');
+    }
+  
+    $("#nome-jogador-1").css("display", "revert"); 
 
-        if (event.key == "Enter") { 
+    $("#nome-jogador-1").keypress(function(event) {        
+
+        if (event.key === "Enter") { 
  
-            nomeJogador1 = document.getElementById("inputNomePlayer1").value;  
+            nomeJogador1 = document.getElementById("nome-jogador-1").value;  
+            contador++;
 
-            $(".recordJogador1").text(nomeJogador1 + ": "); 
-            $(".recordJogador1").css("opacity", "1"); 
+            $(".record-jogador-1").text(nomeJogador1 + ": "); 
+            $(".record-jogador-1").css("opacity", "1"); 
 
-            $("#inputNomePlayer1").css("display", "none");    
+            $("#nome-jogador-1").css("display", "none");     
 
-            $(".qntJogadores").html('Digite o nome do Jogador 2 <span class="pressioneEnter">e pressione Enter</span>');  
-            $("#inputNomePlayer2").css("display", "revert");  
+            if (window.innerWidth < 850) { 
+                $(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 2 e</span> <span style="white-space: nowrap;">pressione Enter</span');  
+            }
+            else {
+                $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 2</span> <span class="pressione-enter">e pressione Enter</span>');
+            }
+
+            /*$(".qnt-jogadores").html('Digite o nome do Jogador 2 <span class="pressione-enter">e pressione Enter</span>');  */
+            $("#nome-jogador-2").css("display", "revert");  
         }  
     });
 
 
-    $("#inputNomePlayer2").keypress(function(event) {     
+    $("#nome-jogador-2").keypress(function(event) {     
 
-        if (event.key == "Enter") { 
+        if (event.key === "Enter") { 
 
-            nomeJogador2 = document.getElementById("inputNomePlayer2").value;
+            nomeJogador2 = document.getElementById("nome-jogador-2").value;
 
-            $(".recordJogador2").text(nomeJogador2 + ": ");  
-            $(".recordJogador2").css("opacity", "1"); 
+            $(".record-jogador-2").text(nomeJogador2 + ": ");  
+            $(".record-jogador-2").css("opacity", "1"); 
 
-            $(".qntJogadores").css("display", "none"); 
+            $(".qnt-jogadores").css("display", "none"); 
 
-            $("#inputNomePlayer2").css("display", "none");    
+            $("#nome-jogador-2").css("display", "none");    
 
             $(".tamara").css("display", "none"); 
 
-            $(".row").css("display", "revert"); 
-            
-
-            $("h1").html('Pressione <span class="pressioneQT">Qualquer Tecla</span'); 
+            $(".jogo").css("display", "revert"); 
+             
+            $("h1").html("Aperte Play"); 
 
             vezDeQuem(); 
 
@@ -101,58 +141,70 @@ function nomes() {
 }
 
   
+
+/* ====================================================== */
+/* ========= DEFINE DE QUEM É A VEZ DE JOGAR ============ */
+/* ====================================================== */
+
+
 function vezDeQuem () {
     
-    if (qntJogadores == 1) {
-        $(".sequencia").css("display", "revert");  
-        $(".sequencia").css("opacity", "0"); 
+    if (qntJogadores === 1) { 
+        $(".go").css("opacity", "0"); 
     }
 
-    if (qntJogadores == 2) {
+    if (qntJogadores === 2) {
         $(".vez").css("display", "revert");  
         
-        if (jogador == 1) {
+        if (jogador === 1) {
             $(".vez").text(nomeJogador1 + ", é a sua vez!"); 
         }
-        if (jogador == 2) {
+        if (jogador === 2) {
             $(".vez").text(nomeJogador2 + ", é a sua vez!"); 
         } 
+  
     }
 }
 
 
-function startGame () { 
 
-    $(document).keypress(function(){
-        if (start == 0) {
-            primeiroRound();
-        } 
-    });
-    
+/* ====================================================== */
+/* =================== INÍCIO DO JOGO =================== */
+/* ====================================================== */
 
-    $(document).click(function(){
-        if (start == 0) {
+function startGame () {  
+
+    $(".play-btn").click(function(){
+        if (start === 0) {
             primeiroRound();
         }
     });
+
 }
+
+
+
+/* ====================================================== */
+/* ======================== JOGO ======================== */
+/* ====================================================== */
+
 
 function primeiroRound() { 
  
     cont = 0;
-    
-    $(".sequencia").css("display", "revert"); 
-    $(".sequencia").css("opacity", "0"); 
+     
+    $(".go").css("opacity", "0"); 
 
-    $(".vez").css("display", "none");  
+    $(".vez").css("display", "none");   
+     
+    $(".play-btn").css("display", "none");   
 
     start++;
     round++; 
 
     $("h1").text("Round " + round);
-
-    $(".sequencia").text("Repita a sequência:"); 
-    $(".sequencia").css("opacity", "1"); 
+  
+    $(".go").css("opacity", "1"); 
 
     let number = Math.floor((Math.random() * 4) + 1);
 
@@ -168,9 +220,9 @@ function clickedButton () {
 
     $(".green").click(function() {  
  
-        if (jogador == 1 ) {
+        if (jogador === 1 ) {
 
-            if (sequenciaJogador1.length == 0) {
+            if (sequenciaJogador1.length === 0) {
                 click = 0;
             }
 
@@ -184,9 +236,9 @@ function clickedButton () {
             }  
         }
 
-        if (jogador == 2 ) {
+        if (jogador === 2 ) {
 
-            if (sequenciaJogador2.length == 0) {
+            if (sequenciaJogador2.length === 0) {
                 click = 0;
             }
 
@@ -205,9 +257,9 @@ function clickedButton () {
     
     $(".red").click(function() {  
 
-        if (jogador == 1 ) {
+        if (jogador === 1 ) {
 
-            if (sequenciaJogador1.length == 0) {
+            if (sequenciaJogador1.length === 0) {
                 click = 0;
             }
 
@@ -222,9 +274,9 @@ function clickedButton () {
         }
 
 
-        if (jogador == 2 ) {
+        if (jogador === 2 ) {
 
-            if (sequenciaJogador2.length == 0) {
+            if (sequenciaJogador2.length === 0) {
                 click = 0;
             }
 
@@ -245,9 +297,9 @@ function clickedButton () {
 
     $(".yellow").click(function() { 
 
-        if (jogador == 1) {
+        if (jogador === 1) {
             
-            if (sequenciaJogador1.length == 0) {
+            if (sequenciaJogador1.length === 0) {
                 click = 0;
             }
 
@@ -261,9 +313,9 @@ function clickedButton () {
             }
         }
 
-        if (jogador == 2) {
+        if (jogador === 2) {
             
-            if (sequenciaJogador2.length == 0) {
+            if (sequenciaJogador2.length === 0) {
                 click = 0;
             }
 
@@ -281,9 +333,9 @@ function clickedButton () {
 
     $(".blue").click(function() { 
 
-        if (jogador == 1) {
+        if (jogador === 1) {
 
-            if (sequenciaJogador1.length == 0) {
+            if (sequenciaJogador1.length === 0) {
                 click = 0;
             }
 
@@ -297,9 +349,9 @@ function clickedButton () {
             }
         }
 
-        if (jogador == 2) {
+        if (jogador === 2) {
             
-            if (sequenciaJogador2.length == 0) {
+            if (sequenciaJogador2.length === 0) {
                 click = 0;
             }
 
@@ -318,11 +370,17 @@ function clickedButton () {
 
 function comparador (jogo, jogador, click, cor) {    
 
-        if (jogo[click] == jogador[click]) {
+        if (jogo[click] === jogador[click]) {
 
             animation(cor);
 
-            if (click == jogo.length-1) {
+            if (click === jogo.length-1) { 
+
+                setTimeout(() => {            
+                    $(".go").css("opacity", "0"); 
+                }, 600 );  
+                
+
                 setTimeout(() => {            
                     proximosRounds(); 
                 }, 1000 );  
@@ -337,11 +395,11 @@ function comparador (jogo, jogador, click, cor) {
  
 function animation (number) { 
     
-    if (number == 5 && cont == 1) {
+    if (number === 5 && cont === 1) {
         number = 6;
     }
 
-    if (number == 5 && cont == 0) {
+    if (number === 5 && cont === 0) {
         cont = 1;
     }
 
@@ -350,13 +408,11 @@ function animation (number) {
         case 1: 
             let green = new Audio('sounds/green.mp3');
             green.play();     
+ 
+            $(".green").css("background-color", "#198d19");  
 
-            $(".green").addClass("pressed"); 
-            $(".green").css("background-color", "#099c09");  
-
-            setTimeout(() => {
-                $(".green").removeClass("pressed"); 
-                $(".green").css("background-color", "green");  
+            setTimeout(() => { 
+                $(".green").css("background-color", "#093109");  
             }, 350);
 
             break;
@@ -364,13 +420,11 @@ function animation (number) {
         case 2: 
             let red = new Audio('sounds/red.mp3');
             red.play();    
+ 
+            $(".red").css("background-color", "#ff0000"); 
 
-            $(".red").addClass("pressed");  
-            $(".red").css("background-color", "red"); 
-
-            setTimeout(() => {
-                $(".red").removeClass("pressed"); 
-                $(".red").css("background-color", "#ff0000c4"); 
+            setTimeout(() => { 
+                $(".red").css("background-color", "#590000"); 
             }, 350);
 
             break;
@@ -378,13 +432,11 @@ function animation (number) {
         case 3: 
             let yellow = new Audio('sounds/yellow.mp3');
             yellow.play();    
+              
+            $(".yellow").css("background-color", "#d9d915"); 
             
-            $(".yellow").addClass("pressed"); 
-            $(".yellow").css("background-color", "yellow"); 
-
-            setTimeout(() => {
-                $(".yellow").removeClass("pressed"); 
-                $(".yellow").css("background-color", "#ffff00d3"); 
+            setTimeout(() => { 
+                $(".yellow").css("background-color", "#80800d"); 
             }, 350);
 
             break;
@@ -392,18 +444,18 @@ function animation (number) {
         case 4: 
             let blue = new Audio('sounds/blue.mp3');
             blue.play();  
-            
-            $(".blue").addClass("pressed"); 
-            $(".blue").css("background-color", "blue"); 
+              
+            $(".blue").css("background-color", "#1919ff"); 
 
-            setTimeout(() => {
-                $(".blue").removeClass("pressed"); 
-                $(".blue").css("background-color", "#0000ff9c"); 
+            setTimeout(() => { 
+                $(".blue").css("background-color", "#0d0d80"); 
             }, 350);
             break;
 
         case 5: 
-        
+         
+            $(".go").css("opacity", "0"); 
+            
             sequenciaJogo.length = 0;  
             sequenciaJogador1.length = 0; 
             sequenciaJogador2.length = 0; 
@@ -423,8 +475,9 @@ function animation (number) {
             $(".yellow").off();
             $(".blue").off();
             
-            $("h1").text("Game Over"); 
-            $(".sequencia").css("opacity", "0"); 
+            $(".go").css("opacity", "0");    // Garante que o X não sobreponha o GO
+            $("h1").text("Game Over");  
+            $(".x").css("opacity", "1"); 
 
             setTimeout(() => { 
 
@@ -436,16 +489,23 @@ function animation (number) {
                             recordJogador1 = round-1;
                         }
                             
-                        if (recordJogador1 == 0 || recordJogador1 == 1) {
-                            $(".recordJogador1").text(nomeJogador1 + ": " + recordJogador1 + " round"); 
+                        if (recordJogador1 === 0 || recordJogador1 === 1) { 
+                            $(".record-jogador-1").html(nomeJogador1 + ': <span style="white-space: nowrap;">' + recordJogador1 + ' round</span>'); 
                         }
-                        else {
-                            $(".recordJogador1").text(nomeJogador1 + ": " + recordJogador1 + " rounds"); 
+                        else { 
+                            $(".record-jogador-1").html(nomeJogador1 + ': <span style="white-space: nowrap;">' + recordJogador1 + ' rounds</span>'); 
                         }
                         
-                        $(".recordJogador1").css("opacity", "1"); 
+                        $(".record-jogador-1").css("opacity", "1");  
+                        
+                        $(".play-btn").css("display", "revert"); 
+                        
+                        if (qntJogadores === 1) { 
+                            $(".records").css("justify-content", "center"); 
+                            $(".records").css("gap", "0"); 
+                        }
 
-                        if (qntJogadores == 2) {
+                        if (qntJogadores === 2) {
                             jogador = 2;
                         }
 
@@ -458,43 +518,53 @@ function animation (number) {
                             recordJogador2 = round-1; 
                         }  
                         
-                        if (recordJogador2 == 0 || recordJogador2 == 1) {
-                            $(".recordJogador2").text(nomeJogador2 + ": " + recordJogador2 + " round"); 
+                        if (recordJogador2 === 0 || recordJogador2 === 1) { 
+                            $(".record-jogador-2").html(nomeJogador2 + ': <span style="white-space: nowrap;">' + recordJogador2 + ' round</span>'); 
                         }
-                        else {
-                            $(".recordJogador2").text(nomeJogador2 + ": " + recordJogador2 + " rounds"); 
+                        else { 
+                            $(".record-jogador-2").html(nomeJogador2 + ': <span style="white-space: nowrap;">' + recordJogador2 + ' rounds</span>'); 
                         } 
                         
                         
-                        $(".recordJogador2").css("opacity", "1"); 
+                        $(".record-jogador-2").css("opacity", "1"); 
                         
-                        if (qntJogadores == 2) {
+                        $(".play-btn").css("display", "revert"); 
+
+                        if (qntJogadores === 2) {
                             jogador = 1;
                         }
                         
+                        break;
+
+                        default: 
+                          console.log("default1");
                         break;
                 }
   
                 start = 0;       
                 round = 0; 
                 click = 0;  
-
-                $("h1").html('Pressione <span class="pressioneQT">Qualquer Tecla</span'); 
-
-                $(".sequencia").css("display", "none"); 
+ 
+                $(".go").css("opacity", "0"); 
+                $(".x").css("opacity", "0");  
+                $("h1").html("Aperte Play");
 
                 vezDeQuem(); 
 
             }, 1500);  
    
             break;
+            
+            default: 
+                console.log("default2");
+            break;
     }
 }
 
 
 function proximosRounds() {    
-
-    $(".sequencia").css("opacity", "0");
+ 
+    $(".go").css("opacity", "0"); 
  
     round++; 
     click = 0;
@@ -513,8 +583,11 @@ function proximosRounds() {
         setTimeout(() => {
             animation(sequenciaJogo[i]);  
 
-            if (i == sequenciaJogo.length-1) { 
-                $(".sequencia").css("opacity", "1"); 
+            if (i === sequenciaJogo.length-1) { 
+
+                setTimeout(() => {  
+                    $(".go").css("opacity", "1"); 
+                }, 600);  
             }
 
         }, 650 * (i+1));  
@@ -523,21 +596,27 @@ function proximosRounds() {
 }
  
 
+
+/* ====================================================== */
+/* ========= REMOVE AUDIO DELAY NO DESKTOP ============== */
+/* ====================================================== */
+
+
 function audioSemDelay() {
     
     let yellow = new Audio('sounds/yellow.mp3');
-    yellow.volume = 0.001;
+    yellow.volume = 0.0001;
     yellow.play() 
     
     let green = new Audio('sounds/yellow.mp3');
-    green.volume = 0.001;
+    green.volume = 0.0001;
     green.play()
     
     let blue = new Audio('sounds/yellow.mp3');
-    blue.volume = 0.001;
+    blue.volume = 0.0001;
     blue.play()
     
     let red = new Audio('sounds/yellow.mp3');
-    red.volume = 0.001;
+    red.volume = 0.0001;
     red.play()
 }
