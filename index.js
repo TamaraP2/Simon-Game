@@ -16,10 +16,7 @@ let qntJogadores;
 let nomeJogador1 = "Jogador 1";
 let nomeJogador2 = "Jogador 2"; 
 let cont = 0;                       // Impede que Game Over seja acionado mais de uma vez
-
-
-
-audioSemDelay();
+ 
 
 
 /* ====================================================== */
@@ -75,8 +72,7 @@ $(".dois-players").click(function(){
 
 function nomes() {
    
-    if (window.innerWidth < 850) { 
-        /*$(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 1 e</span> <span style="white-space: nowrap;">pressione Enter</span');  */
+    if (window.innerWidth < 850) {         
         $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 1</span> <span style="white-space: nowrap;"></span');  
     }
     else {
@@ -110,15 +106,13 @@ function nomes() {
 
             $("#nome-jogador-1").css("display", "none");     
 
-            if (window.innerWidth < 850) { 
-                /*$(".qnt-jogadores").html('<span style="white-space: nowrap;">Digite o nome</span> <span style="white-space: nowrap;">do Jogador 2 e</span> <span style="white-space: nowrap;">pressione Enter</span');  */                
+            if (window.innerWidth < 850) {                 
                 $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 2</span> <span style="white-space: nowrap;"></span');  
             }
             else {
                 $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 2</span> <span class="pressione-enter">e pressione Enter</span>');
             }
-
-            /*$(".qnt-jogadores").html('Digite o nome do Jogador 2 <span class="pressione-enter">e pressione Enter</span>');  */
+            
             $("#nome-jogador-2").css("display", "revert");  
         }  
     });
@@ -169,13 +163,10 @@ function vezDeQuem () {
     if (qntJogadores === 2) {
         $(".vez").css("display", "revert");  
         
-        if (jogador === 1) {
-            /*$(".vez").text("Sua vez, " + nomeJogador1 + "!"); */
+        if (jogador === 1) {            
             $(".vez").text(nomeJogador1 + ", sua vez!"); 
         }
-        if (jogador === 2) {
-            /*$(".vez").text("Sua vez, " + nomeJogador2 + "!"); */
-            /*$(".vez").text(nomeJogador2 + ", é a sua vez!"); */
+        if (jogador === 2) {            
             $(".vez").text(nomeJogador2 + ", sua vez!"); 
         } 
   
@@ -190,6 +181,8 @@ function vezDeQuem () {
 
 function startGame () {  
 
+    audioSemDelay();
+
     $(".play-btn").click(function(){
         if (start === 0) {
             primeiroRound();
@@ -201,7 +194,7 @@ function startGame () {
 
 
 /* ====================================================== */
-/* ======================== JOGO ======================== */
+/* =================== PRIMEIRO ROUND =================== */
 /* ====================================================== */
 
 
@@ -231,6 +224,12 @@ function primeiroRound() {
     clickedButton(); 
 }    
   
+
+
+/* ====================================================== */
+/* ======================== BOTÕES ====================== */
+/* ====================================================== */
+
 
 function clickedButton () {   
 
@@ -384,6 +383,12 @@ function clickedButton () {
 }
    
 
+
+/* ====================================================== */
+/* === COMPARA SEQUÊNCIA DO JOGO X SEQUÊNCIA JOGADOR ==== */
+/* ====================================================== */
+
+
 function comparador (jogo, jogador, click, cor) {    
 
         if (jogo[click] === jogador[click]) {
@@ -409,6 +414,12 @@ function comparador (jogo, jogador, click, cor) {
 } 
  
  
+
+/* ====================================================== */
+/* ====================== ANIMAÇÕES ===================== */
+/* ====================================================== */
+
+
 function animation (number) { 
     
     if (number === 5 && cont === 1) {
@@ -576,6 +587,12 @@ function animation (number) {
             break;
     }
 }
+
+
+
+/* ====================================================== */
+/* ======================= ROUNDS ======================= */
+/* ====================================================== */
 
 
 function proximosRounds() {    
