@@ -70,7 +70,7 @@ h1 {
   
 
 /* ====================================================== */
-/* ======================== BOTÕES ====================== */
+/* ========================= JOGO ======================= */
 /* ====================================================== */
 
 .btn {
@@ -166,8 +166,8 @@ h1 {
 
 
 
-/* ============================================================================================================= */
-/* ======================= RECORDS ============================================================================================================= */
+/* ====================================================== */
+/* ======================= RECORDS ====================== */
 /* ====================================================== */
 
  
@@ -177,19 +177,12 @@ h1 {
   gap: 7%;
 }
 
-.record-jogador-1 { 
-  margin-left: 2%; 
+.record-jogador-1,
+.record-jogador-2 {  
   opacity: 0; 
-} 
+}  
 
-.record-jogador-2 { 
-  margin-right: 2%;
-  opacity: 0; 
-}
-
-
-
-
+ 
 /* ====================================================== */
 /* =============== SELEÇÃO DE JOGADORES ================= */
 /* ====================================================== */
@@ -248,26 +241,36 @@ h1 {
 
 @media (max-width: 600px) {
 
+  body { 
+    font-size: 4vw;
+    grid-template-rows: 2fr 1fr 1fr 2fr;
+  } 
+
+  h1 {  
+    font-size: 7.5vw; 
+  } 
+
   .um-player, 
   .dois-players { 
     margin: 0 auto;
-    padding: 15px;
+    padding: 15px; 
+    font-size: 4vw;
   } 
+
+  .vez {
+    margin: 0;
+  }
  
   .qnt-jogadores{
     margin-bottom: 5%;
     margin-top: 5vh;
+    font-size: 4vw;
   }  
  
   .records {  
     display: block; 
     grid-row: 2 / 3;
-   } 
-
-  body { 
-    font-size: 4vw;
-    grid-template-rows: 2fr 1fr 1fr 2fr;
-  } 
+   }  
 
   .record-jogador-1 {
     display: block; 
@@ -277,106 +280,16 @@ h1 {
   .record-jogador-2 { 
     display: block;  
     margin: 0;
-  }
-
-  h1 {  
-    font-size: 7.5vw; 
   } 
-  
-  .tamara { 
-    margin: 0% 1%;
-  }
 
   .jogo { 
     margin-bottom: 5%;
     width: 75vw;
     height: 75vw;
   }
-  .vez {
-    margin: 0;
+   
+  .tamara { 
+    margin: 0% 1%;
   }
-
-  .qnt-jogadores {
-    font-size: 4vw;
-  }
-  
-  .um-player, 
-  .dois-players { 
-    font-size: 4vw;
-  } 
 
 }
-
-/*
-@media (max-width: 600px) and (min-height: 800px){
-
-  body {
-    width: 90vw;
-    margin: 0 auto;
-  }
-
-  h1 {  
-    font-size: calc(2px + 4vh);   
-    margin-top: 5vh; 
-    margin-bottom: 9vh; 
-    line-height: 1.6;
-  } 
-  
-  .jogo { 
-    width: 85vw;
-    height: 85vw;
-  }
-
-  .black {  
-    height: 30vw;
-    width: 30vw; 
-  } 
-
-
-  .play-btn { 
-    height: 30vw;
-    width: 30vw; 
-  } 
-   
-  .go { 
-    height: 30vw;
-    width: 30vw; 
-  }
-  
-  .x { 
-    height: 30vw;
-    width: 30vw; 
-  }
-
-
-  
-  .um-player, 
-  .dois-players { 
-    margin: 0 auto;
-    padding: 10px;
-  } 
-  
-  .record-jogador-1 { 
-    /*margin: 5% 0 5% 2%; */
- /*   opacity: 0;
-  } 
-
-  .record-jogador-2 { 
-    /*margin: 5% 2% 5% 0; */
- /*   opacity: 0;
-  }
-  
-  .pressione-qualquer-tecla {
-    display: block;
-  }
-  
-  .qnt-jogadores {
-    line-height: 1.6;
-  }
-    
-  .tamara {  
-    font-size: 6vw;
-  }
-} 
-
-*/
