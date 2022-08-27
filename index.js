@@ -98,7 +98,11 @@ function nomes() {
 
         if (event.key === "Enter") { 
  
-            nomeJogador1 = document.getElementById("nome-jogador-1").value;  
+
+            if (document.getElementById("nome-jogador-1").value !== "" && document.getElementById("nome-jogador-1").value !== " ") {
+                nomeJogador1 = document.getElementById("nome-jogador-1").value;  
+            }
+
             contador++;
 
             $(".record-jogador-1").text(nomeJogador1 + ": -"); 
@@ -122,7 +126,9 @@ function nomes() {
 
         if (event.key === "Enter") { 
 
-            nomeJogador2 = document.getElementById("nome-jogador-2").value;
+            if (document.getElementById("nome-jogador-2").value !== "" && document.getElementById("nome-jogador-2").value !== " ") {
+                nomeJogador2 = document.getElementById("nome-jogador-2").value;  
+            }            
 
             $(".record-jogador-2").text(nomeJogador2 + ": -");  
             $(".record-jogador-2").css("opacity", "1"); 
