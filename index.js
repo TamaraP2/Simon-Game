@@ -3,20 +3,31 @@
 /* ====================== VARIAVEIS ===================== */
 /* ====================================================== */
 
-let sequenciaJogo = [];
-let sequenciaJogador1 = [];
-let sequenciaJogador2 = [];
-let start = 0;                      // Impede que o jogador possa pressionar teclas após o início do jogo
-let round = 0; 
-let click = 0;          
-let recordJogador1 = 0;              
-let recordJogador2 = 0;     
-let jogador = 1;                    // Jogador da vez.   1 = jogador 1     2 = jogador 2
-let qntJogadores;
-let nomeJogador1 = "Jogador 1";
-let nomeJogador2 = "Jogador 2"; 
-let cont = 0;                       // Impede que Game Over seja acionado mais de uma vez
- 
+
+let jogo = {
+    sequencia: [],
+    sequenciaCores: [],
+    gameOver: false,
+    round: 0,
+    click: 0,
+    qntJogadores: 1, 
+    jogadorDaVez: 1,                      // Jogador da vez.   1 = jogador 1     2 = jogador 2
+    number: -1,
+    color: ""
+}
+
+let jogadores = [
+    {
+        nome: "Jogador 1",
+        record: 0,
+        sequencia: []
+    }, 
+    {
+        nome: "Jogador 2",
+        record: 0, 
+        sequencia: []
+    }
+]
 
 
 /* ====================================================== */
@@ -25,7 +36,7 @@ let cont = 0;                       // Impede que Game Over seja acionado mais d
 
 $(".um-player").click(function(){
 
-    qntJogadores = 1;
+    jogo.qntJogadores = 1;
    
     $(".um-player").css("display", "none"); 
     $(".dois-players").css("display", "none"); 
@@ -38,7 +49,7 @@ $(".um-player").click(function(){
        
     $("h1").html("Aperte Play"); 
  
-    $(".record-jogador-1").html(nomeJogador1);  
+    $(".record-jogador-1").html(jogadores[0].nome);  
     $(".record-jogador-1").css("opacity", "1"); 
     $(".record-jogador-2").css("display", "none"); 
     $(".records").css("justify-content", "center"); 
@@ -51,7 +62,8 @@ $(".um-player").click(function(){
 
 $(".dois-players").click(function(){
 
-    qntJogadores = 2;
+    jogo.qntJogadores = 2;
+
     $(".um-player").css("display", "none"); 
     $(".dois-players").css("display", "none"); 
  
@@ -70,69 +82,47 @@ $(".dois-players").click(function(){
 /* ====================================================== */
 
 
-function nomes() {
-   
-    if (window.innerWidth < 850) {         
-        $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 1</span> <span style="white-space: nowrap;"></span');  
-    }
-    else {
-        $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 1</span> <span class="pressione-enter">e pressione Enter</span>');
-    }
-  
-    let contador = 0;
+function nomes() { 
 
-    
-    if (!("ontouchstart" in document.documentElement)) {
+    let jogadorUmDigitouNome = false;
+
+    if (!("ontouchstart" in document.documentElement)) {  // Recarrega a página para atualizar o css de acordo com o tamanho da página
          
         window.addEventListener('resize', function() { 
-            if (round === 0 && contador === 0) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome, e após o jogo já ter iniciado
+            if (jogadorUmDigitouNome === false) {      // Impede que a página seja recarregada após Jogador 1 já ter colocado o nome
                 window.location.reload(); 
-                contador++;
+                jogadorUmDigitouNome = true;
             }        
         }); 
     } 
 
-    $("#nome-jogador-1").css("display", "revert"); 
-
-    $("#nome-jogador-1").keypress(function(event) {        
-
-        if (event.key === "Enter") { 
+    if (window.innerWidth < 850) {                 
+        $(".qnt-jogadores").html(`<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador ${jogo.jogadorDaVez}</span> <span style="white-space: nowrap;"></span`);  
+    }
+    else {
+        $(".qnt-jogadores").html(`Digite o nome do <span style="white-space: nowrap;">Jogador ${jogo.jogadorDaVez}</span> <span class="pressione-enter">e pressione Enter</span>`);
+    }
+        
+    $(`#nome-jogador-${jogo.jogadorDaVez}`).css("display", "revert");  
  
+    $("#nome-jogador-1").keypress(function(event) {    
+        
+        if (event.key === "Enter") {     
 
-            if (document.getElementById("nome-jogador-1").value !== "" && document.getElementById("nome-jogador-1").value !== " ") {
-                nomeJogador1 = document.getElementById("nome-jogador-1").value;  
-            }
+            salvandoNomesERecords();
 
-            contador++;
+            jogadorUmDigitouNome = true;  
 
-            $(".record-jogador-1").text(nomeJogador1 + ": -"); 
-            $(".record-jogador-1").css("opacity", "1"); 
-
-            $("#nome-jogador-1").css("display", "none");     
-
-            if (window.innerWidth < 850) {                 
-                $(".qnt-jogadores").html('<span style="white-space: nowrap;">Nome do</span> <span style="white-space: nowrap;">Jogador 2</span> <span style="white-space: nowrap;"></span');  
-            }
-            else {
-                $(".qnt-jogadores").html('Digite o nome do <span style="white-space: nowrap;">Jogador 2</span> <span class="pressione-enter">e pressione Enter</span>');
-            }
-            
-            $("#nome-jogador-2").css("display", "revert");  
+            nomes();
         }  
     });
+ 
+    $("#nome-jogador-2").unbind('keypress').bind('keypress', function(event) {     // unbind, bind impede que o keypress seja acionado 2x seguidas
 
+        if (event.key === "Enter") {   
 
-    $("#nome-jogador-2").keypress(function(event) {     
-
-        if (event.key === "Enter") { 
-
-            if (document.getElementById("nome-jogador-2").value !== "" && document.getElementById("nome-jogador-2").value !== " ") {
-                nomeJogador2 = document.getElementById("nome-jogador-2").value;  
-            }            
-
-            $(".record-jogador-2").text(nomeJogador2 + ": -");  
-            $(".record-jogador-2").css("opacity", "1"); 
-
+            salvandoNomesERecords();
+              
             $(".qnt-jogadores").css("display", "none"); 
 
             $("#nome-jogador-2").css("display", "none");    
@@ -140,19 +130,31 @@ function nomes() {
             $(".tamara").css("display", "none"); 
 
             $(".jogo").css("display", "revert"); 
-             
+            
             $("h1").html("Aperte Play"); 
-
+  
             vezDeQuem(); 
 
             setTimeout(() => {
                 startGame();
             }, 350);
-        }
+        }  
     });
- 
-}
 
+    function salvandoNomesERecords() {
+
+        if (document.getElementById(`nome-jogador-${jogo.jogadorDaVez}`).value !== "" && document.getElementById(`nome-jogador-${jogo.jogadorDaVez}`).value !== " ") {
+            jogadores[`${jogo.jogadorDaVez-1}`].nome = document.getElementById(`nome-jogador-${jogo.jogadorDaVez}`).value;  
+        }
+
+        $(`.record-jogador-${jogo.jogadorDaVez}`).text(jogadores[`${jogo.jogadorDaVez-1}`].nome + ": -"); 
+        $(`.record-jogador-${jogo.jogadorDaVez}`).css("opacity", "1"); 
+
+        $(`#nome-jogador-${jogo.jogadorDaVez}`).css("display", "none");   
+        
+        jogo.jogadorDaVez === 1 ? jogo.jogadorDaVez = 2 : jogo.jogadorDaVez = 1; 
+    }
+}
   
 
 /* ====================================================== */
@@ -162,20 +164,14 @@ function nomes() {
 
 function vezDeQuem () {
     
-    if (qntJogadores === 1) { 
+    if (jogo.qntJogadores === 1) { 
         $(".go").css("opacity", "0"); 
     }
 
-    if (qntJogadores === 2) {
+    if (jogo.qntJogadores === 2) {
         $(".vez").css("display", "revert");  
         
-        if (jogador === 1) {            
-            $(".vez").text(nomeJogador1 + ", sua vez!"); 
-        }
-        if (jogador === 2) {            
-            $(".vez").text(nomeJogador2 + ", sua vez!"); 
-        } 
-  
+        $(".vez").text(jogadores[`${jogo.jogadorDaVez-1}`].nome + ", sua vez!");
     }
 }
 
@@ -187,16 +183,11 @@ function vezDeQuem () {
 
 function startGame () {  
 
-    audioSemDelay();
+    audioSemDelay();  
 
-    $(".play-btn").click(function(){
-        if (start === 0) {
-            primeiroRound();
-        }
-    });
+    $(".play-btn").click( () => { primeiroRound() });
 
 }
-
 
 
 /* ====================================================== */
@@ -204,9 +195,7 @@ function startGame () {
 /* ====================================================== */
 
 
-function primeiroRound() { 
- 
-    cont = 0;
+function primeiroRound() {  
      
     $(".go").css("opacity", "0"); 
 
@@ -214,22 +203,44 @@ function primeiroRound() {
      
     $(".play-btn").css("display", "none");   
 
-    start++;
-    round++; 
+    jogo.gameOver = false;
+    jogo.round++; 
 
-    $("h1").text("Round " + round);
+    $("h1").text("Round " + jogo.round);
   
     $(".go").css("opacity", "1"); 
 
-    let number = Math.floor((Math.random() * 4) + 1);
+    sequencia();
 
-    sequenciaJogo.push(number);  
+    jogo.sequencia.push(jogo.number);  
+    jogo.sequenciaCores.push(jogo.color); 
 
-    animation(number);  
-  
-    clickedButton(); 
-}    
-  
+    jogadores.forEach (jogador => jogador.sequencia.length = 0);
+   
+    animation(jogo.color);  
+
+    $(".green").click(function() {clickedButton(1, "green");});
+    $(".red").click(function() {clickedButton(2, "red");});   
+    $(".yellow").click(function() {clickedButton(3, "yellow");}); 
+    $(".blue").click(function() {clickedButton(4, "blue");});      
+}      
+
+    
+
+/* ====================================================== */
+/* ======================= SEQUÊNCIA ==================== */
+/* ====================================================== */
+
+
+function sequencia () {
+
+    jogo.number = Math.floor((Math.random() * 4) + 1);  
+
+    if (jogo.number === 1) jogo.color = "green"; 
+    else if (jogo.number === 2) jogo.color = "red"; 
+    else if (jogo.number === 3) jogo.color = "yellow"; 
+    else if (jogo.number === 4) jogo.color = "blue";  
+}
 
 
 /* ====================================================== */
@@ -237,171 +248,34 @@ function primeiroRound() {
 /* ====================================================== */
 
 
-function clickedButton () {   
+function clickedButton (numero, cor) {   
 
-    $(".green").click(function() {  
- 
-        if (jogador === 1 ) {
+    if (jogadores[`${jogo.jogadorDaVez-1}`].sequencia.length === 0) {
+        jogo.click = 0;
+    }
 
-            if (sequenciaJogador1.length === 0) {
-                click = 0;
-            }
+    if (jogo.click < jogo.round) {  // Impede que o jogador possa clicar e acionar a animação a qualquer momento 
 
-            if (click < round) {  // Impede que o jogador possa clicar e acionar a animação a qualquer momento 
-    
-                sequenciaJogador1.push(1);    
+        jogadores[`${jogo.jogadorDaVez-1}`].sequencia.push(numero);     
+        comparador(jogo.click, cor);   
+        jogo.click++;   
+    }  
 
-                comparador(sequenciaJogo, sequenciaJogador1, click, 1);  
-
-                click++;   
-            }  
-        }
-
-        if (jogador === 2 ) {
-
-            if (sequenciaJogador2.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {   
-    
-                sequenciaJogador2.push(1);    
-
-                comparador(sequenciaJogo, sequenciaJogador2, click, 1);  
-
-                click++;   
-            }  
-        }
-
-    });
- 
-    
-    $(".red").click(function() {  
-
-        if (jogador === 1 ) {
-
-            if (sequenciaJogador1.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {  
-    
-                sequenciaJogador1.push(2);  
-    
-                comparador(sequenciaJogo, sequenciaJogador1, click, 2);  
-
-                click++;   
-            }
-        }
-
-
-        if (jogador === 2 ) {
-
-            if (sequenciaJogador2.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {  
-    
-                sequenciaJogador2.push(2);  
-    
-                comparador(sequenciaJogo, sequenciaJogador2, click, 2);  
-
-                click++;   
-            }
-        }
-
-
-
-    });
-
-
-    $(".yellow").click(function() { 
-
-        if (jogador === 1) {
-            
-            if (sequenciaJogador1.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {   
-
-                sequenciaJogador1.push(3);  
-
-                comparador(sequenciaJogo, sequenciaJogador1, click, 3);  
-
-                click++;  
-            }
-        }
-
-        if (jogador === 2) {
-            
-            if (sequenciaJogador2.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {   
-
-                sequenciaJogador2.push(3);  
-
-                comparador(sequenciaJogo, sequenciaJogador2, click, 3);  
-
-                click++;  
-            }
-        }
-    });
-
-
-    $(".blue").click(function() { 
-
-        if (jogador === 1) {
-
-            if (sequenciaJogador1.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {   
-
-                sequenciaJogador1.push(4);    
-            
-                comparador(sequenciaJogo, sequenciaJogador1, click, 4);  
-
-                click++;  
-            }
-        }
-
-        if (jogador === 2) {
-            
-            if (sequenciaJogador2.length === 0) {
-                click = 0;
-            }
-
-            if (click < round) {   
-
-                sequenciaJogador2.push(4);    
-            
-                comparador(sequenciaJogo, sequenciaJogador2, click, 4);  
-
-                click++;  
-            }
-        }
-    }); 
 }
    
 
 
 /* ====================================================== */
 /* === COMPARA SEQUÊNCIA DO JOGO X SEQUÊNCIA JOGADOR ==== */
-/* ====================================================== */
+/* ====================================================== */ 
 
+function comparador (click, cor) {    
 
-function comparador (jogo, jogador, click, cor) {    
-
-        if (jogo[click] === jogador[click]) {
+        if (jogo.sequencia[click] === jogadores[`${jogo.jogadorDaVez-1}`].sequencia[click]) {
 
             animation(cor);
 
-            if (click === jogo.length-1) { 
+            if (click === jogo.sequencia.length-1) { 
 
                 setTimeout(() => {            
                     $(".go").css("opacity", "0"); 
@@ -415,187 +289,116 @@ function comparador (jogo, jogador, click, cor) {
         } 
 
         else {
-            animation(5); 
+            jogo.gameOver = true;
+            animation("wrong");   
         } 
 } 
- 
- 
+  
 
 /* ====================================================== */
 /* ====================== ANIMAÇÕES ===================== */
 /* ====================================================== */
 
 
-function animation (number) { 
-    
-    if (number === 5 && cont === 1) {
-        number = 6;
+function animation (cor) {   
+
+    if (cor !== "wrong" && !jogo.gameOver) { 
+
+        let corClara;
+        let corEscura;
+
+        if (cor === "green") {
+            corClara = "#198d19";
+            corEscura = "#093109";
+        }  
+        else if (cor === "red") {
+            corClara = "#ff0000";
+            corEscura = "#590000";
+        }  
+        else if (cor === "yellow") {
+            corClara = "#d9d915";
+            corEscura = "#80800d";
+        } 
+        else if (cor === "blue") {
+            corClara = "#1919ff";
+            corEscura = "#0d0d80";
+        } 
+
+        let arquivoAudio = new Audio(`sounds/${cor}.mp3`);
+        arquivoAudio.play();     
+
+        $(`.${cor}`).css("background-color", corClara);  
+
+        setTimeout(() => { 
+            $(`.${cor}`).css("background-color", corEscura);  
+        }, 350);
+
     }
 
-    if (number === 5 && cont === 0) {
-        cont = 1;
-    }
+    else {
 
-    switch (number) {
+        $(".go").css("opacity", "0"); 
+                
+        jogo.sequencia.length = 0;  
+        jogo.sequenciaCores.length = 0;  
+        
+        jogadores.forEach (jogador => jogador.sequencia.length = 0);
 
-        case 1: 
-            let green = new Audio('sounds/green.mp3');
-            green.play();     
- 
-            $(".green").css("background-color", "#198d19");  
+        let wrong = new Audio('sounds/wrong.mp3'); 
+        wrong.play();   
+        
+        $(".green").off();
+        $(".red").off();
+        $(".yellow").off();
+        $(".blue").off();
+        
+        $(".go").css("opacity", "0");    // Garante que o X não sobreponha o GO
+        $("h1").text("Game Over");  
+        $(".x").css("opacity", "1"); 
 
-            setTimeout(() => { 
-                $(".green").css("background-color", "#093109");  
-            }, 350);
+        setTimeout(() => {  
 
-            break;
+            if (jogo.round-1 > jogadores[jogo.jogadorDaVez-1].record) {
+                jogadores[jogo.jogadorDaVez-1].record = jogo.round-1;
+            }
+                
+            let rounds = " rounds";
 
-        case 2: 
-            let red = new Audio('sounds/red.mp3');
-            red.play();    
- 
-            $(".red").css("background-color", "#ff0000"); 
-
-            setTimeout(() => { 
-                $(".red").css("background-color", "#590000"); 
-            }, 350);
-
-            break;
-
-        case 3: 
-            let yellow = new Audio('sounds/yellow.mp3');
-            yellow.play();    
-              
-            $(".yellow").css("background-color", "#d9d915"); 
+            if (jogadores[jogo.jogadorDaVez-1].record === 0 || jogadores[jogo.jogadorDaVez-1].record === 1) { 
+                rounds = " round";
+            }
+                
+            $(`.record-jogador-${jogo.jogadorDaVez}`).html(jogadores[jogo.jogadorDaVez-1].nome + ': <span style="white-space: nowrap;">' + jogadores[jogo.jogadorDaVez-1].record + rounds + '</span>'); 
+                        
+            $(`.record-jogador-${jogo.jogadorDaVez}`).css("opacity", "1");  
             
-            setTimeout(() => { 
-                $(".yellow").css("background-color", "#80800d"); 
-            }, 350);
+            $(".play-btn").css("display", "revert"); 
+            
+            if (jogo.qntJogadores === 1) { 
+                $(".records").css("justify-content", "center"); 
+                $(".records").css("gap", "0"); 
+            } 
+            
+            if (jogo.qntJogadores === 2) {
+                jogo.jogadorDaVez === 2 ? jogo.jogadorDaVez = 1 : jogo.jogadorDaVez = 2;
+            }
+     
+            jogo.round = 0; 
+            jogo.click = 0;  
 
-            break;
- 
-        case 4: 
-            let blue = new Audio('sounds/blue.mp3');
-            blue.play();  
-              
-            $(".blue").css("background-color", "#1919ff"); 
-
-            setTimeout(() => { 
-                $(".blue").css("background-color", "#0d0d80"); 
-            }, 350);
-            break;
-
-        case 5: 
-         
             $(".go").css("opacity", "0"); 
-            
-            sequenciaJogo.length = 0;  
-            sequenciaJogador1.length = 0; 
-            sequenciaJogador2.length = 0; 
+            $(".x").css("opacity", "0");  
+            $("h1").html("Aperte Play");
 
-            let wrong = new Audio('sounds/wrong.mp3'); 
+            vezDeQuem(); 
 
-            $("body").css("background-color", "red");
-
-            setTimeout(() => {
-                $("body").css("background-color", "#011F3F");
-            }, 350);
-
-            wrong.play();   
-             
-            $(".green").off();
-            $(".red").off();
-            $(".yellow").off();
-            $(".blue").off();
-            
-            $(".go").css("opacity", "0");    // Garante que o X não sobreponha o GO
-            $("h1").text("Game Over");  
-            $(".x").css("opacity", "1"); 
-
-            setTimeout(() => { 
-
-                switch (jogador) {
-
-                    case 1:  
-
-                        if (round-1 > recordJogador1) {
-                            recordJogador1 = round-1;
-                        }
-                            
-                        if (recordJogador1 === 0 || recordJogador1 === 1) { 
-                            $(".record-jogador-1").html(nomeJogador1 + ': <span style="white-space: nowrap;">' + recordJogador1 + ' round</span>'); 
-                        }
-                        else { 
-                            $(".record-jogador-1").html(nomeJogador1 + ': <span style="white-space: nowrap;">' + recordJogador1 + ' rounds</span>'); 
-                        }
-                        
-                        $(".record-jogador-1").css("opacity", "1");  
-                        
-                        $(".play-btn").css("display", "revert"); 
-                        
-                        if (qntJogadores === 1) { 
-                            $(".records").css("justify-content", "center"); 
-                            $(".records").css("gap", "0"); 
-                        }
-
-                        if (qntJogadores === 2) {
-                            jogador = 2;
-                        }
-
-                        break;
-                    
-
-                    case 2:
-
-                        if (round-1 > recordJogador2) { 
-                            recordJogador2 = round-1; 
-                        }  
-                        
-                        if (recordJogador2 === 0 || recordJogador2 === 1) { 
-                            $(".record-jogador-2").html(nomeJogador2 + ': <span style="white-space: nowrap;">' + recordJogador2 + ' round</span>'); 
-                        }
-                        else { 
-                            $(".record-jogador-2").html(nomeJogador2 + ': <span style="white-space: nowrap;">' + recordJogador2 + ' rounds</span>'); 
-                        } 
-                        
-                        
-                        $(".record-jogador-2").css("opacity", "1"); 
-                        
-                        $(".play-btn").css("display", "revert"); 
-
-                        if (qntJogadores === 2) {
-                            jogador = 1;
-                        }
-                        
-                        break;
-
-                        default: 
-                          console.log("default1");
-                        break;
-                }
-  
-                start = 0;       
-                round = 0; 
-                click = 0;  
+        }, 1500);  
  
-                $(".go").css("opacity", "0"); 
-                $(".x").css("opacity", "0");  
-                $("h1").html("Aperte Play");
+    }  
 
-                vezDeQuem(); 
-
-            }, 1500);  
-   
-            break;
-            
-            default: 
-                console.log("default2");
-            break;
-    }
 }
 
-
-
+ 
 /* ====================================================== */
 /* ======================= ROUNDS ======================= */
 /* ====================================================== */
@@ -605,24 +408,26 @@ function proximosRounds() {
  
     $(".go").css("opacity", "0"); 
  
-    round++; 
-    click = 0;
+    jogo.round++; 
+    jogo.click = 0;
     
-    $("h1").text("Round " + round);   
+    $("h1").text("Round " + jogo.round);   
 
-    let number = Math.floor((Math.random() * 4) + 1); 
+    sequencia();
 
-    sequenciaJogo.push(number);  
+    jogo.sequencia.push(jogo.number);  
+    jogo.sequenciaCores.push(jogo.color);
+    
+    jogadores.forEach (jogador => jogador.sequencia.length = 0);
 
-    sequenciaJogador1.length = 0; 
-    sequenciaJogador2.length = 0; 
-
-    for (let i = 0; i < sequenciaJogo.length; i++) {
+    for (let i = 0; i < jogo.sequenciaCores.length; i++) {
 
         setTimeout(() => {
-            animation(sequenciaJogo[i]);  
+            if (!jogo.gameOver) {
+                animation(jogo.sequenciaCores[i]);  
+            }
 
-            if (i === sequenciaJogo.length-1) { 
+            if (i === jogo.sequenciaCores.length-1) { 
 
                 setTimeout(() => {  
                     $(".go").css("opacity", "1"); 
@@ -647,15 +452,15 @@ function audioSemDelay() {
     yellow.volume = 0.0001;
     yellow.play() 
     
-    let green = new Audio('sounds/yellow.mp3');
+    let green = new Audio('sounds/green.mp3');
     green.volume = 0.0001;
     green.play()
     
-    let blue = new Audio('sounds/yellow.mp3');
+    let blue = new Audio('sounds/blue.mp3');
     blue.volume = 0.0001;
     blue.play()
     
-    let red = new Audio('sounds/yellow.mp3');
+    let red = new Audio('sounds/red.mp3');
     red.volume = 0.0001;
     red.play()
 }
